@@ -1,0 +1,95 @@
+<program> : <moduleDeclarations> <otherModules> <driverModule> <otherModules>
+<moduleDeclarations> : <moduleDeclaration> <moduleDeclarations>
+<moduleDeclarations> : e
+<moduleDeclaration> : DECLARE MODULE <id> SEMICOL
+<otherModules> : <module> <otherModules>
+<otherModules> : e
+<driverModule> : DRIVERDEF DRIVER PROGRAM DRIVERENDDEF <moduleDef>
+<module> : DEF MODULE <id> ENDDEF TAKES INPUT SQBO <input_plist> SQBC SEMICOL <ret> <moduleDef>
+<ret> : RETURNS SQBO <output_plist> SQBC SEMICOL
+<ret> : e
+<input_plist> : <id> COLON <dataType> <N1>
+<N1> : COMMA <id> COLON <dataType> <N1>
+<N1> : e
+<output_plist> : <id> COLON <type> <N2>
+<N2> : COMMA <id> COLON <type> <N2>
+<N2> : e
+<dataType> : <type>
+<dataType> : ARRAY SQBO <range_arrays> SQBC OF <type>
+<range_arrays> : <index> RANGEOP <index>
+<type> : INTEGER
+<type> : REAL
+<type> : BOOLEAN
+<moduleDef> : START <statements> END
+<statements> : <statement> <statements>
+<statements> : e
+<statement> : <ioStmt>
+<statement> : <simpleStmt>
+<statement> : <declareStmt>
+<statement> : <conditionalStmt>
+<statement> : <iterativeStmt>
+<ioStmt> : GET_VALUE BO <id> BC SEMICOL
+<ioStmt> : PRINT BO <var> BC SEMICOL
+<boolConstt> : TRUE
+<boolConstt> : FALSE
+<array_id> : <id> <whichId>
+<var_id_num> : <array_id>
+<var_id_num> : NUM
+<var_id_num> : RNUM
+<var> : <boolConstt>
+<var> : <var_id_num>
+<whichId> : SQBO <index> SQBC
+<whichId> : e
+<simpleStmt> : <assignmentStmt>
+<simpleStmt> : <moduleReuseStmt>
+<assignmentStmt> : <array_id> ASSIGNOP <arithmeticOrBooleanExpr> SEMICOL
+<index> : NUM
+<index> : <id>
+<moduleReuseStmt> : <optional> USE MODULE <id> WITH PARAMETERS <idList> SEMICOL
+<optional> : SQBO <idList> SQBC ASSIGNOP
+<optional> : e
+<idList> : <id> <N3>
+<N3> : COMMA <id> <N3>
+<N3> : e
+<arithmeticOrBooleanExpr> : <AnyTerm> <N7>
+<N7> : <logicalOp> <AnyTerm> <N7>
+<N7> : e
+<AnyTerm> : <boolConstt> <N8>
+<AnyTerm> : <arithmeticExpr> <N8>
+<N8> : <relationalOp> <arithmeticExpr> <N8>
+<N8> : e
+<arithmeticExpr> : <term> <N4>
+<N4> : <op1> <term> <N4>
+<N4> : e
+<term> : <factor> <N5>
+<N5> : <op2> <factor> <N5>
+<N5> : e
+<factor> : BO <arithmeticOrBooleanExpr> BC
+<factor> : MINUS <arithmeticExpr>
+<factor> : <var_id_num>
+<op1> : PLUS
+<op1> : MINUS
+<op2> : MUL
+<op2> : DIV
+<logicalOp> : AND
+<logicalOp> : OR
+<relationalOp> : LT
+<relationalOp> : LE
+<relationalOp> : GT
+<relationalOp> : GE
+<relationalOp> : EQ
+<relationalOp> : NE
+<declareStmt> : DECLARE <idList> COLON <dataType> SEMICOL
+<conditionalStmt> : SWITCH BO <id> BC START <caseStmts> <default> END
+<caseStmts> : CASE <value> COLON <statements> BREAK SEMICOL <N9>
+<N9> : CASE <value> COLON <statements> BREAK SEMICOL <N9>
+<N9> : e
+<value> : FALSE
+<value> : TRUE
+<value> : NUM
+<default> : DEFAULT COLON <statements> BREAK SEMICOL
+<default> : e
+<iterativeStmt> : FOR BO <id> IN <num> RANGEOP <num> BC START <statements> END
+<iterativeStmt> : WHILE BO <arithmeticOrBooleanExpr> BC START <statements> END
+<id> : ID
+<num> : NUM
