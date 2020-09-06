@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "languageDef.h"
 #include "grammarDef.h"
 
 grammar createEmptyGrammar(){
@@ -34,6 +35,7 @@ rule createEmptyRule(){
 	new->lhs = NULL;
 	new->rhsSize = 0;
 	new->rhs = NULL;
+	new->semantics = NULL;
 	return new;
 
 }
@@ -220,9 +222,198 @@ grammar readGrammar(const char * grammarFile){
 
 }
 
+void readSemantics(const char * semanticsFile, grammar G){
+
+	FILE * fp = fopen(semanticsFile, "r");
+	if(!fp){
+		printf("Invalid semantics file. Exiting...\n");
+		exit(1);
+		return;
+	}
+
+	rule _rule = G->rules;
+	while(!feof(fp)){
+		char c = fgetc(fp);
+		semantic current = (semantic)malloc(sizeof(struct _semantic));
+		current->next = NULL;
+		current->type = -1;
+		current->child = 0;
+		semantic prev = current;
+
+		while(!feof(fp) && c != '\n'){
+			semantic new;
+
+			// Skipping blanks
+			while(!feof(fp) && c != '\n' && (c == ' ' || c == '\t'))
+				c = fgetc(fp);
+
+			if(c){
+				// LHS
+				if(current->type >= 0){
+					new = (semantic)malloc(sizeof(struct _semantic));
+					new->next = NULL;
+					new->type = -1;
+					new->child = 0;
+
+					prev->next = new;
+					prev = new;
+				}else
+					new = current;
+
+				switch(c){
+					case 'c':
+						// construct semantic
+						new->type = 0;
+						break;
+					case 's':
+						// scope semantic
+						new->type = 1;
+						break;
+					case 'l':
+						// list semantic
+						new->type = 2;
+						for(int i = 0; i < 6; i++)
+							c = fgetc(fp);
+						switch(c){
+							case 'h':
+								new->instruction = 0;
+								break;
+							case 'n':
+								new->instruction = 1;
+								break;
+						}
+						break;
+					case 't':
+						// type semantic
+						new->type = 3;
+
+						for(int i = 0; i < 6; i++)
+							c = fgetc(fp);
+						switch(c){
+							case 'b':
+								new->instruction = 0;
+								break;
+							case 'i':
+								new->instruction = 1;
+								break;
+							case 'o':
+								new->instruction = 2;
+								break;
+							case 'r':
+								new->instruction = 3;
+								break;
+						}
+						break;
+					case 'o':
+						// operator semantic
+						new->type = 4;
+						break;
+					case 'p':
+						// pruning semantic
+						new->type = 5;
+						break;
+				}
+
+				// Finding RHS or next semantic
+				while(!feof(fp) && c != '\n' && c != '=' && c != ',')
+					c = fgetc(fp);
+
+				if(c == '='){
+					c = fgetc(fp);
+
+					// Skipping blanks
+					while(!feof(fp) && c != '\n' && (c == ' ' || c == '\t'))
+						c = fgetc(fp);
+
+					if(c){
+						// RHS
+						if(new->type == 0){
+							// construct semantic
+							switch(c){
+								case 'P':
+									new->instruction = CONSTRUCT_PROGRAM;
+									break;
+								case 'E':
+									new->instruction = CONSTRUCT_ENTRY;
+									break;
+								case 'M':
+									new->instruction = CONSTRUCT_MODULE;
+									break;
+								case 'V':
+									new->instruction = CONSTRUCT_VARIABLE;
+									break;
+								case 'W':
+									new->instruction = CONSTRUCT_WHICH_ID;
+									break;
+								case 'C':
+									new->instruction = CONSTRUCT_CONSTANT;
+									break;
+								case 'D':
+									new->instruction = CONSTRUCT_DECLARE;
+									break;
+								case 'A':
+									new->instruction = CONSTRUCT_ASSIGN;
+									break;
+								case 'I':
+									new->instruction = CONSTRUCT_IO;
+									break;
+								case 'S':
+									new->instruction = CONSTRUCT_SWITCH;
+									break;
+								case 'L':
+									new->instruction = CONSTRUCT_LOOP;
+									break;
+								case 'R':
+									new->instruction = CONSTRUCT_REUSE_MODULE;
+									break;
+							}
+						}
+						// Assigning child
+						while(c >= '0' && c <= '9'){
+							new->child = new->child * 10 + c - '0';
+							c = fgetc(fp);
+						}
+					}
+				}
+			}
+
+			// Finding next semantic
+			while(!feof(fp) && c != '\n' && c != ',')
+				c = fgetc(fp);
+			if(c == ',')
+				c = fgetc(fp);
+
+		}
+		// Assigning semantics linked list to current rule
+		if(current->type < 0){
+			free(current);
+			current = NULL;
+		}
+		if(_rule){
+			_rule->semantics = current;
+			_rule = _rule->next;
+		}
+	}
+	fclose(fp);
+	return;
+
+}
+
+void freeSemantics(semantic s){
+
+	while(s){
+		semantic temp = s->next;
+		free(s);
+		s = temp;
+	}
+	return;
+
+}
+
 void freeGrammar(grammar G){
 
 	while(G->rules){
+		freeSemantics(G->rules->semantics);
 		rule temp = G->rules->next;
 		free(G->rules->rhs);
 		free(G->rules);

@@ -355,6 +355,7 @@ parseTree createParseTreeNode(parseTree parent, symbol sym, int childNum, int li
 	tree->childNum = childNum;
 	tree->line = line;
 	tree->filled = 0;
+	tree->semantics = NULL;
 	strcpy(tree->lexeme, "");
 	return tree;
 
@@ -427,6 +428,7 @@ parseTree parseInputSourceCode(const char * fileName, grammar G){
 
 			// Create children based on the rule
 
+			current->semantics = _rule->semantics;
 			current->totalChildren = _rule->rhsSize;
 			current->children = (parseTree *)malloc(sizeof(parseTree) * _rule->rhsSize);
 			for(int i = 0; i < _rule->rhsSize; i++){
@@ -464,6 +466,7 @@ parseTree parseInputSourceCode(const char * fileName, grammar G){
 				// Fill null productions in parse tree, will free later
 				rule _rule = findRuleInTable(T, G, pop, current->symbol);
 				if(_rule){
+					current->semantics = _rule->semantics;
 					current->totalChildren = _rule->rhsSize;
 					current->children = (parseTree *)malloc(sizeof(parseTree) * _rule->rhsSize);
 					for(int i = 0; i < _rule->rhsSize; i++)

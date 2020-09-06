@@ -35,6 +35,7 @@ struct _parseTree{
 	int childNum;
 	int line;
 	int filled;
+	semantic semantics;
 	char lexeme[SIZE_ID + 1];
 };
 

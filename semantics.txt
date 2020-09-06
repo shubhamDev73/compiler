@@ -1,0 +1,95 @@
+construct = PROGRAM, scope
+
+prune = 0
+construct = DECLARE, type->basic = 5, prune = 0, prune = 1, prune = 3
+
+prune = 0
+construct = ENTRY, scope, prune = 0, prune = 1, prune = 2, prune = 3
+construct = MODULE, scope, type->basic = 4, type->input = 7->type, type->output = 10->type, prune = 0, prune = 1, prune = 3, prune = 4, prune = 5, prune = 6, prune = 8, prune = 9
+prune = 0, prune = 1, prune = 3, prune = 4
+prune = 0
+type->input = 3->type, list->head = 0, list->next = 3->list, prune = 1
+type->input = 4->type, list->head = 1, list->next = 4->list, prune = 0, prune = 2
+prune = 0
+type->output = 3->type, list->head = 0, list->next = 3->list, prune = 1
+type->output = 4->type, list->head = 1, list->next = 4->list, prune = 0, prune = 2
+prune = 0
+
+type->basic = 3, type->output = 5->type, type->range = 2->range, prune = 0, prune = 1, prune = 3, prune = 4
+prune = 1
+type->basic = 1, prune = 0
+type->basic = 2, prune = 0
+type->basic = 0, prune = 0
+prune = 0, prune = 2
+
+prune = 0
+
+
+
+
+
+construct = IO, prune = 0, prune = 1, prune = 3, prune = 4
+construct = IO, prune = 0, prune = 1, prune = 3, prune = 4
+construct = CONSTANT, type->basic = 0
+construct = CONSTANT, type->basic = 0
+construct = WHICH_ID
+
+construct = CONSTANT, type->basic = 1
+construct = CONSTANT, type->basic = 2
+
+
+prune = 0, prune = 2
+prune = 0
+
+
+construct = ASSIGN, prune = 1, prune = 3
+construct = CONSTANT, type->basic = 1
+
+construct = REUSE_MODULE, prune = 1, prune = 2, prune = 4, prune = 5, prune = 7
+prune = 0, prune = 2, prune = 3
+prune = 0
+list->head = 0, list->next = 1->list
+list->head = 1, list->next = 2->list, prune = 0
+prune = 0
+operator = 0
+operator = 2
+prune = 0
+operator = 0
+operator = 0
+operator = 1
+prune = 0
+operator = 0
+operator = 4
+prune = 0
+operator = 0
+operator = 3
+prune = 0
+prune = 0, prune = 2
+operator = 9
+
+
+
+
+
+
+
+
+
+
+
+
+
+construct = DECLARE, prune = 0, prune = 2, prune = 3, prune = 4
+construct = SWITCH, scope, prune = 0, prune = 1, prune = 3, , prune = 4, prune = 7
+list->head = 9, list->next = 6, prune = 0, prune = 2, prune = 4, prune = 5
+list->head = 9, list->next = 6, prune = 0, prune = 2, prune = 4, prune = 5
+prune = 0
+construct = CONSTANT, type->basic = 0
+construct = CONSTANT, type->basic = 0
+construct = CONSTANT, type->basic = 1
+prune = 0, prune = 1, prune = 3, prune = 4
+prune = 0
+construct = LOOP, scope, prune = 0, prune = 1, prune = 3, prune = 5, prune = 7, prune = 8, prune = 10
+construct = LOOP, scope, prune = 0, prune = 1, prune = 3, prune = 4, prune = 6
+construct = VARIABLE
+construct = CONSTANT, type->basic = 1
