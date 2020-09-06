@@ -5,6 +5,7 @@
 #include "parser.h"
 #include "ast.h"
 #include "symbolTable.h"
+#include "semantics.h"
 
 void printGrammar(grammar G){
 
@@ -57,8 +58,10 @@ int main(int argc, const char * argv[]){
 	if(pt->line == 0){
 		ast _ast = createAST(pt, NULL, NULL);
 		freeGrammar(G);
-		printAST(_ast);
 		createSymbolTable(_ast, _ast);
+		semanticCheck(_ast, _ast);
+		if(_ast->line == 0)
+			printf("Code compiles successfully.....\n");
 		freeAST(_ast);
 	}else{
 		freeParseTree(pt);
