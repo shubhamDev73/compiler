@@ -6,6 +6,7 @@
 #include "ast.h"
 #include "symbolTable.h"
 #include "semantics.h"
+#include "codegen.h"
 
 void printGrammar(grammar G){
 
@@ -60,8 +61,13 @@ int main(int argc, const char * argv[]){
 		freeGrammar(G);
 		createSymbolTable(_ast, _ast);
 		semanticCheck(_ast, _ast);
-		if(_ast->line == 0)
+		if(_ast->line == 0){
 			printf("Code compiles successfully.....\n");
+			newCode();
+			code _code = generateCode(_ast, 0);
+			outputCode(_code, argv[2]);
+			printf("Code saved successfully.....\n");
+		}
 		freeAST(_ast);
 	}else{
 		freeParseTree(pt);
