@@ -1,0 +1,23 @@
+<<module add1>>
+takes input[a:integer, b:integer, c:integer];
+returns[d:integer, e:integer, f:integer];
+start
+	print(a);
+	print(b);
+	print(c);
+	d:=a+1;
+	e:=b+1;
+	f:=c+1;
+end
+
+<<<driver program>>>
+start
+	declare a,b,c:integer;
+	get_value(a);
+	get_value(b);
+	get_value(c);
+	[a, b, c]:=use module add1 with parameters a,b,c;
+	print(a);
+	print(b);
+	print(c);
+end

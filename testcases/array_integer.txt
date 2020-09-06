@@ -1,0 +1,26 @@
+<<<driver program>>>
+start
+
+	declare A,B:array[4..7] of integer;
+	get_value(A);
+	print(A);
+
+	declare i, k:integer;
+	for(i in 1..5)
+	start
+		get_value(k);
+		print(A[k]);
+	end
+
+	B:=A;
+	print(B);
+	for(i in 4..7)
+	start
+		get_value(k);
+		B[i] := k;
+	end
+
+	print(A);
+	print(B);
+
+end

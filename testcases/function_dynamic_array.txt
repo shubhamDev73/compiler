@@ -1,0 +1,59 @@
+declare module readArr;
+
+<<module arraySum>>
+takes input[list:array[1..15] of integer, high:integer, low:integer];
+returns [sum:integer];
+start
+	declare index:integer;
+	sum:=0;
+	for(index in  1..15)
+	start
+		declare t:boolean;
+		t:=index>=low AND index<=high;
+		switch(t)
+		start
+			case true:
+				sum:=sum+list[index];
+				break;
+			case false:
+				break;
+		end
+	end
+	print(sum);
+end
+
+<<<driver program>>>
+start
+	declare n, k, s:integer;
+	get_value(k);
+
+	declare A:array[1..k] of integer;
+	use module readArr with parameters A;
+	print(A);
+
+	n := 1;
+	[s]:= use module arraySum with parameters A, k, n;
+	print(s);
+
+	get_value(n);
+	declare B:array[n..k] of integer;
+	get_value(B);
+	print(B);
+
+	[s]:= use module arraySum with parameters B, k, n;
+	print(s);
+end
+
+<<module readArr>>
+takes input [arr1:array[low..high] of integer];
+start
+	declare i:integer;
+	i:=low;
+	while(i<=high)
+	start
+		declare tempvar:integer;
+		get_value(tempvar);
+		arr1[i]:=tempvar;
+		i:=i+1;
+	end
+end

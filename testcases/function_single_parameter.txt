@@ -1,0 +1,28 @@
+declare module square;
+
+<<module add5>>
+takes input[n:integer];
+returns  [sum:integer];
+start
+	sum:=n+5;
+	print(sum);
+end
+
+<<<driver program>>>
+start
+	declare s, k:integer;
+	get_value(k);
+	[s]:= use module add5 with parameters k;
+	print(s);
+	[s]:= use module square with parameters s;
+	print(s);
+	[s]:= use module square with parameters k;
+	print(s);
+end
+
+<<module square>>
+takes input [k:integer];
+returns  [sum:integer];
+start
+	sum:=k*k;
+end

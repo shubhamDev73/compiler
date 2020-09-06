@@ -1,0 +1,50 @@
+<<<driver program>>>
+start
+
+	print(true);
+	print(10);
+	print(-10);
+
+	declare a:boolean;
+	get_value(a);
+	print(a);
+
+	a:=true;
+	print(a);
+	a:=false;
+	print(a);
+	a:=2>3;
+	print(a);
+	a:=2>3 OR true;
+	print(a);
+	a:=2>3 AND false;
+	print(a);
+
+	declare k:integer;
+	get_value(k);
+	print(k);
+
+	k:=5;
+	print(k);
+	k:=-5;
+	print(k);
+	k:=2*3-5+4/2+3*5+4;
+	print(k);
+	k:=-10/2;
+	print(k);
+	k:=10/-2;
+	print(k);
+	k:=10/(-2);
+	print(k);
+	k:=-k;
+	print(k);
+	k:=2*k;
+	print(k);
+	k:=k*2;
+	print(k);
+	k:=k/2;
+	print(k);
+	k:=5/k;
+	print(k);
+
+end

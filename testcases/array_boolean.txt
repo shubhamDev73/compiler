@@ -1,0 +1,30 @@
+<<<driver program>>>
+start
+	declare m,n:integer;
+	declare A:array[8..12] of boolean;
+
+	get_value(A);
+	print(A);
+
+	get_value(m);
+	get_value(n);
+
+	declare B:array[m..n] of boolean;
+
+	get_value(B);
+	print(B);
+
+	declare a:boolean;
+	declare k:integer;
+
+	get_value(k);
+	get_value(a);
+	A[k]:=a;
+
+	get_value(k);
+	get_value(a);
+	B[k]:=a;
+
+	print(A);
+	print(B);
+end
