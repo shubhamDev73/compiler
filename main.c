@@ -2,6 +2,7 @@
 
 #include "grammar.h"
 #include "lexer.h"
+#include "parser.h"
 
 void printGrammar(grammar G){
 
@@ -29,10 +30,22 @@ void printTokens(const char * fileName, grammar G){
 
 }
 
+void printParseTree(parseTree pt){
+
+	printf("Line\tSymbol\tParent\tLexeme\tNumber of children\n");
+	printf("----------------------------------------------------\n");
+	recursivePrintParseTree(pt);
+
+}
+
 int main(int argc, const char * argv[]){
 
 	grammar G = readGrammar("grammar.txt");
-	printTokens(argv[1], G);
+	parseTree pt = parseInputSourceCode(argv[1], G);
+
+	printParseTree(pt);
+
+	freeParseTree(pt);
 	freeGrammar(G);
 
 	return 0;
